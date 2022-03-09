@@ -16,8 +16,7 @@ def lower_case_convertion(text):
 	Input :- string
 	Output :- lowercase string
 	"""
-	lower_text = text.lower()
-	return lower_text
+	return text.lower()
 
 
 ex_lowercase = "This is an example Sentence for LOWER case conversion"
@@ -39,8 +38,7 @@ def remove_html_tags(text):
 	Output :- String
 	"""
 	html_pattern = r'<.*?>'
-	without_html = re.sub(pattern=html_pattern, repl=' ', string=text)
-	return without_html
+	return re.sub(pattern=html_pattern, repl=' ', string=text)
 
 ex_htmltags = """ <body>
 <div>
@@ -66,8 +64,7 @@ def remove_html_tags_beautifulsoup(text):
 	Output :- String
 	"""
 	parser = BeautifulSoup(text, "html.parser")
-	without_html = parser.get_text(separator = " ")
-	return without_html
+	return parser.get_text(separator = " ")
 
 ex_htmltags = """ <body>
 <div>
@@ -93,8 +90,7 @@ def remove_urls(text):
 	Output :- String
 	"""
 	url_pattern = r'https?://\S+|www\.\S+'
-	without_urls = re.sub(pattern=url_pattern, repl=' ', string=text)
-	return without_urls
+	return re.sub(pattern=url_pattern, repl=' ', string=text)
 
 # example text which contain URLs in it
 ex_urls = """
@@ -121,9 +117,8 @@ def remove_numbers(text):
 	Output :- String
 	"""
 	number_pattern = r'\d+'
-	without_number = re.sub(pattern=number_pattern,
- repl=" ", string=text)
-	return without_number
+	return re.sub(pattern=number_pattern,
+	repl=" ", string=text)
 
 # example text which contain numbers in it
 ex_numbers = """
@@ -156,9 +151,7 @@ def num_to_words(text):
 		if after_spliting[index].isdigit():
 			after_spliting[index] = num2words(after_spliting[index])
 
-    # joining list into string with space
-	numbers_to_words = ' '.join(after_spliting)
-	return numbers_to_words
+	return ' '.join(after_spliting)
 
 # example text which contain numbers in it
 ex_numbers = """
@@ -198,9 +191,7 @@ def spell_correction(text):
 		else:
 			correct_words.append(each_word)
 
-	# joining correct_words list into single string
-	correct_spelling = ' '.join(correct_words)
-	return correct_spelling
+	return ' '.join(correct_words)
 
 #example text with mis spelling words
 ex_misSpell_words = """
@@ -236,8 +227,7 @@ def spell_autocorrect(text):
 		correct_word = spell_corrector(word)
 		correct_spell_words.append(correct_word)
 
-	correct_spelling = ' '.join(correct_spell_words)
-	return correct_spelling
+	return ' '.join(correct_spell_words)
 
 # another example text with misSpelling words
 ex_misSpell_words_1 = """
@@ -332,10 +322,8 @@ def expand_contractions(contraction):
 	match = contraction.group(0)
 	# first char from matching contraction (D for Doesn't)
 	first_char = match[0]
-	if contraction_mapping.get(match):
-		expanded_contraction = contraction_mapping.get(match)
-	else:
-		expanded_contraction = contraction_mapping.get(match.lower())
+	expanded_contraction = contraction_mapping.get(
+	    match) or contraction_mapping.get(match.lower())
 	expanded_contraction = first_char+expanded_contraction[1:]
 
 	return expanded_contraction
@@ -440,28 +428,27 @@ def remove_emojis(text):
 	Output :- String
 	"""
 	emoji_pattern = re.compile("["
-                               u"\U0001F600-\U0001F64F"  # emoticons
-                               u"\U0001F300-\U0001F5FF"  # symbols & pictographs
-                               u"\U0001F680-\U0001F6FF"  # transport & map symbols
-                               u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
-                               u"\U00002500-\U00002BEF"  # chinese char
-                               u"\U00002702-\U000027B0"
-                               u"\U00002702-\U000027B0"
-                               u"\U000024C2-\U0001F251"
-                               u"\U0001f926-\U0001f937"
-                               u"\U00010000-\U0010ffff"
-                               u"\u2640-\u2642"
-                               u"\u2600-\u2B55"
-                               u"\u200d"
-                               u"\u23cf"
-                               u"\u23e9"
-                               u"\u231a"
-                               u"\ufe0f"  # dingbats
-                               u"\u3030"
-                               "]+", flags=re.UNICODE)
+	u"\U0001F600-\U0001F64F"  # emoticons
+	u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+	u"\U0001F680-\U0001F6FF"  # transport & map symbols
+	u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+	u"\U00002500-\U00002BEF"  # chinese char
+	u"\U00002702-\U000027B0"
+	u"\U00002702-\U000027B0"
+	u"\U000024C2-\U0001F251"
+	u"\U0001f926-\U0001f937"
+	u"\U00010000-\U0010ffff"
+	u"\u2640-\u2642"
+	u"\u2600-\u2B55"
+	u"\u200d"
+	u"\u23cf"
+	u"\u23e9"
+	u"\u231a"
+	u"\ufe0f"  # dingbats
+	u"\u3030"
+	"]+", flags=re.UNICODE)
 
-	without_emoji = emoji_pattern.sub(r'',text)
-	return without_emoji
+	return emoji_pattern.sub(r'',text)
 
 
 # example text for emoji removing technique
@@ -487,10 +474,9 @@ def remove_emoticons(text):
 	Input :- string
 	Output :- string
 	"""
-	emoticon_pattern = re.compile(u'(' + u'|'.join(k for k in EMOTICONS) + u')')
+	emoticon_pattern = re.compile(u'(' + u'|'.join(EMOTICONS) + u')')
 
-	without_emoticons = emoticon_pattern.sub(r'',text)
-	return without_emoticons
+	return emoticon_pattern.sub(r'',text)
 
 # example sentence for removing emoticons
 ex_emoticons = """
@@ -510,7 +496,7 @@ from emoticons_list import EMO_UNICODE
 
 def emoji_words(text):
 	for emot in UNICODE_EMO:
-		emoji_pattern = r'('+emot+')'
+		emoji_pattern = f'({emot})'
 		# replace
 		emoji_words = UNICODE_EMO[emot]
 		replace_text = emoji_words.replace(",","")
@@ -543,7 +529,7 @@ from emoticons_list import EMOTICONS
 
 def emoticons_words(text):
 	for emot in EMOTICONS:
-		emoticon_pattern = r'('+emot+')'
+		emoticon_pattern = f'({emot})'
 		# replace
 		emoticon_words = EMOTICONS[emot]
 		replace_text = emoticon_words.replace(",","")
@@ -602,17 +588,10 @@ def remove_stopwords(text):
 	Input :- String
 	Output :- String
 	"""
-	text_without_sw = []
 	# tokenization
 	text_tokens = word_tokenize(text)
-	for word in text_tokens:
-		# checking word is stopword or not
-		if word not in all_stopwords:
-			text_without_sw.append(word)
-
-	# joining all tokens after removing stop words
-	without_sw = ' '.join(text_without_sw)
-	return without_sw
+	text_without_sw = [word for word in text_tokens if word not in all_stopwords]
+	return ' '.join(text_without_sw)
 
 
 # list of stopwords from nltk
@@ -624,8 +603,7 @@ stopwords_spacy = list(sp.Defaults.stop_words)
 stopwords_gensim = list(gensim.parsing.preprocessing.STOPWORDS)
 
 # unique stopwords from all stopwords
-all_stopwords = []
-all_stopwords.extend(stopwords_nltk)
+all_stopwords = list(stopwords_nltk)
 all_stopwords.extend(stopwords_spacy)
 all_stopwords.extend(stopwords_gensim)
 # all unique stop words
@@ -660,12 +638,7 @@ def freq_words(text):
 	for word in tokens:
 		counter[word]= +1
 
-	FrequentWords = []
-	# take top 10 frequent words
-	for (word, word_count) in counter.most_common(10):
-		FrequentWords.append(word)
-
-	return FrequentWords
+	return [word for (word, word_count) in counter.most_common(10)]
 
 def remove_fw(text, FrequentWords):
 	"""
@@ -675,11 +648,7 @@ def remove_fw(text, FrequentWords):
 	"""
 
 	tokens = word_tokenize(text)
-	without_fw = []
-	for word in tokens:
-		if word not in FrequentWords:
-			without_fw.append(word)
-
+	without_fw = [word for word in tokens if word not in FrequentWords]
 	without_fw = ' '.join(without_fw)
 	return without_fw
 
@@ -736,14 +705,10 @@ def rare_words(text):
 	for word in tokens:
 		counter[word]= +1
 
-	RareWords = []
 	number_rare_words = 10
 	# take top 10 frequent words
 	frequentWords = counter.most_common()
-	for (word, word_count) in frequentWords[:-number_rare_words:-1]:
-		RareWords.append(word)
-
-	return RareWords
+	return [word for (word, word_count) in frequentWords[:-number_rare_words:-1]]
 
 def remove_rw(text, RareWords):
 	"""
@@ -753,11 +718,7 @@ def remove_rw(text, RareWords):
 	"""
 
 	tokens = word_tokenize(text)
-	without_rw = []
-	for word in tokens:
-		if word not in RareWords:
-			without_rw.append(word)
-
+	without_rw = [word for word in tokens if word not in RareWords]
 	without_rw = ' '.join(without_fw)
 	return without_rw
 
@@ -806,8 +767,7 @@ def remove_single_char(text):
 	Output:- string
 	"""
 	single_char_pattern = r'\s+[a-zA-Z]\s+'
-	without_sc = re.sub(pattern=single_char_pattern, repl=" ", string=text)
-	return without_sc
+	return re.sub(pattern=single_char_pattern, repl=" ", string=text)
 
 # example text for removing single characters
 ex_sc = """
@@ -833,8 +793,7 @@ def remove_extra_spaces(text):
 	Output :- String
 	"""
 	space_pattern = r'\s+'
-	without_space = re.sub(pattern=space_pattern, repl=" ", string=text)
-	return without_space
+	return re.sub(pattern=space_pattern, repl=" ", string=text)
 
 
 # example text for removing extra spaces

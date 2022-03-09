@@ -10,10 +10,7 @@ Date: 2020-08-05
 # ===========================================
 # Accuracy
 def accuracy(y_true, y_pred):
-	correct_labels = 0
-	for true, pred in zip(y_true,y_pred):
-		if true == pred:
-			correct_labels += 1
+	correct_labels = sum(true == pred for true, pred in zip(y_true,y_pred))
 	return correct_labels / len(y_true)
 
 
@@ -37,11 +34,7 @@ def true_positive(y_true, y_pred):
 			y_pred - list of predicted values
 	Output :- number of true positives
 	"""
-	tp_counts = 0
-	for true, pred in zip(y_true, y_pred):
-		if true==1 and pred==1:
-			tp_counts += 1
-	return tp_counts
+	return sum(true==1 and pred==1 for true, pred in zip(y_true, y_pred))
 
 
 def true_negative(y_true, y_pred):
@@ -50,11 +43,7 @@ def true_negative(y_true, y_pred):
 			y_pred - list of predicted values
 	Output :- number of true negatives
 	"""
-	tn_counts = 0
-	for true, pred in zip(y_true, y_pred):
-		if true==0 and pred==0:
-			tn_counts += 1
-	return tn_counts
+	return sum(true==0 and pred==0 for true, pred in zip(y_true, y_pred))
 
 
 def false_positive(y_true, y_pred):
@@ -63,11 +52,7 @@ def false_positive(y_true, y_pred):
 			y_pred - list of predicted values
 	Output :- number of false positives
 	"""
-	fp_counts = 0
-	for true,pred in zip(y_true, y_pred):
-		if true==1 and pred==0:
-			fp_counts += 1
-	return fp_counts
+	return sum(true==1 and pred==0 for true,pred in zip(y_true, y_pred))
 
 
 def false_negative(y_true, y_pred):
@@ -76,11 +61,7 @@ def false_negative(y_true, y_pred):
 			y_pred - list of predicted values
 	Output :- number of false negatives
 	"""
-	fn_counts = 0
-	for true, pred in zip(y_true, y_pred):
-		if true==0 and pred==1:
-			fn_counts += 1
-	return fn_counts
+	return sum(true==0 and pred==1 for true, pred in zip(y_true, y_pred))
 
 
 def get_confusion_matrix_components(y_ture, y_pred):
@@ -109,18 +90,17 @@ get_confusion_matrix_components(y_true, y_pred)
 
 # Calcuating accuracy score with confusion matrix components
 def accuracy_score(y_true, y_pred):
-    """
+	"""
 	Input :- y_true :- list of actual values
 			y_pred :- list of predicted values
 	Output:- float value of accuracy score
 	"""
-    tp = true_positive(y_true, y_pred)
-    tn = true_negative(y_true, y_pred)
-    fp = false_positive(y_true, y_pred)
-    fn = false_negative(y_true, y_pred)
-    fn = false_negative(y_true, y_pred)
-    accuracy_score = (tp+tn)/(tp+tn+fp+fn)
-    return accuracy_score
+	tp = true_positive(y_true, y_pred)
+	tn = true_negative(y_true, y_pred)
+	fp = false_positive(y_true, y_pred)
+	fn = false_negative(y_true, y_pred)
+	fn = false_negative(y_true, y_pred)
+	return (tp+tn)/(tp+tn+fp+fn)
 
 
 acc_using_terms = accuracy_score(y_true, y_pred)
@@ -136,8 +116,7 @@ def precision_score(y_true, y_pred):
 	tp = true_positive(y_true, y_pred)
 	fp = false_positive(y_true, y_pred)
 
-	precision_value = tp/(tp+fp)
-	return precision_value
+	return tp/(tp+fp)
 
 precision_value = precision_score(y_true, y_pred)
 print(f"Precision value :- {precision_value}")
@@ -151,8 +130,7 @@ def recall_score(y_true, y_pred):
 	"""
 	tp = true_positive(y_true, y_pred)
 	fn = false_negative(y_true, y_pred)
-	recall_value = tp/(tp+fn)
-	return recall_value
+	return tp/(tp+fn)
 
 
 recall_value = recall_score(y_true, y_pred)
@@ -202,8 +180,7 @@ def f1_score(y_true, y_pred):
 	p = precision_score(y_true, y_pred)
 	r = recall_score(y_true, y_pred)
 
-	f1_score_value = 2 * p * r /(p+r)
-	return f1_score_value
+	return 2 * p * r /(p+r)
 
 # Actual values of target column
 y_true = [1,0,1,1,1,0,0,1]

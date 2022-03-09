@@ -21,8 +21,7 @@ def rss_value(actuals, forecasted):
     residuals = actuals - forecasted
     ## Squared each residual
     squared_residuals = [np.power(residual, 2) for residual in residuals]
-    rss = sum(squared_residuals)
-    return rss
+    return sum(squared_residuals)
 
 
 ## Total sum of square
@@ -33,8 +32,7 @@ def tss_value(actuals):
     ## Squared mean difference value
     mean_difference_squared = [np.power(
     (actual - actual_mean), 2) for actual in actuals]
-    tss = sum(mean_difference_squared)
-    return tss
+    return sum(mean_difference_squared)
 
 
 ## R-squared value
@@ -66,8 +64,7 @@ def get_adjusted_r_squared_value(actuals, forecasted, features_size, flag=0):
 ## Template for modeling regression algorithm
 def regression_model(data, features, target):
 
-    regresser = LinearRegression().fit(data[features], data[target])
-    return regresser
+    return LinearRegression().fit(data[features], data[target])
 
 
 def main():

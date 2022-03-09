@@ -69,13 +69,23 @@ def feature_target_frequency_relation(dataset, f_t_headers):
     feature_unique_observations = unique_observations(dataset, f_t_headers[0])
     unique_targets = unique_observations(dataset, f_t_headers[1])
 
-    frequencies = {}
-    for feature in feature_unique_observations:
-        frequencies[feature] = {unique_targets[0]: len(
-            dataset[(dataset[f_t_headers[0]] == feature) & (dataset[f_t_headers[1]] == unique_targets[0])]),
+    return {
+        feature: {
+            unique_targets[0]: len(
+                dataset[
+                    (dataset[f_t_headers[0]] == feature)
+                    & (dataset[f_t_headers[1]] == unique_targets[0])
+                ]
+            ),
             unique_targets[1]: len(
-                dataset[(dataset[f_t_headers[0]] == feature) & (dataset[f_t_headers[1]] == unique_targets[1])])}
-    return frequencies
+                dataset[
+                    (dataset[f_t_headers[0]] == feature)
+                    & (dataset[f_t_headers[1]] == unique_targets[1])
+                ]
+            ),
+        }
+        for feature in feature_unique_observations
+    }
 
 
 def feature_target_histogram(feature_target_frequencies, feature_header):
@@ -132,8 +142,7 @@ def model_accuracy(trained_model, features, targets):
     :param targets:
     :return:
     """
-    accuracy_score = trained_model.score(features, targets)
-    return accuracy_score
+    return trained_model.score(features, targets)
 
 
 def main():

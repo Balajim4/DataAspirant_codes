@@ -5,9 +5,9 @@ from spellchecker import SpellChecker
 from autocorrect import Speller
 from nltk import word_tokenize
 import unidecode
-from nltk.stem import PorterStemmer 
+from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
-from emoticons_list import EMOTICONS 
+from emoticons_list import EMOTICONS
 from emoticons_list import EMO_UNICODE
 from string import punctuation
 from nltk.corpus import stopwords
@@ -39,8 +39,7 @@ stopwords_spacy = list(sp.Defaults.stop_words)
 # list of stopwords from gensim
 stopwords_gensim = list(gensim.parsing.preprocessing.STOPWORDS)
 # unique stopwords from all stopwords
-all_stopwords = []
-all_stopwords.extend(stopwords_nltk)
+all_stopwords = list(stopwords_nltk)
 all_stopwords.extend(stopwords_spacy)
 all_stopwords.extend(stopwords_gensim)
 # all unique stop words
@@ -59,8 +58,7 @@ class Preprocess:
 		Input :- string
 		Output :- lowercase string
 		"""
-		lower_text = text.lower()
-		return lower_text
+		return text.lower()
 
 	def remove_html_tags(self, text):
 		"""
@@ -69,8 +67,7 @@ class Preprocess:
 		Output :- String
 		"""
 		html_pattern = r'<.*?>'
-		without_html = re.sub(pattern=html_pattern, repl=' ', string=text)
-		return without_html
+		return re.sub(pattern=html_pattern, repl=' ', string=text)
 
 	def remove_urls(self, text):
 		"""
@@ -79,8 +76,7 @@ class Preprocess:
 		Output :- String
 		"""
 		url_pattern = r'https?://\S+|www\.\S+'
-		without_urls = re.sub(pattern=url_pattern, repl=' ', string=text)
-		return without_urls
+		return re.sub(pattern=url_pattern, repl=' ', string=text)
 
 	def remove_numbers(self, text):
 		"""
@@ -89,8 +85,7 @@ class Preprocess:
 		Output :- String
 		"""
 		number_pattern = r'\d+'
-		without_number = re.sub(pattern=number_pattern, repl=" ", string=text)
-		return without_number
+		return re.sub(pattern=number_pattern, repl=" ", string=text)
 
 	def num_to_words(self, text):
 		"""
@@ -105,9 +100,7 @@ class Preprocess:
 			if after_spliting[index].isdigit():
 				after_spliting[index] = num2words(after_spliting[index])
 
-		# joining list into string with space
-		numbers_to_words = ' '.join(after_spliting)
-		return numbers_to_words
+		return ' '.join(after_spliting)
 
 	def spell_correction(self, text):
 		"""
@@ -127,9 +120,7 @@ class Preprocess:
 			else:
 				correct_words.append(each_word)
 
-		# joining correct_words list into single string
-		correct_spelling = ' '.join(correct_words)
-		return correct_spelling
+		return ' '.join(correct_words)
 
 	def accented_to_ascii(self, text):
 		"""
@@ -161,10 +152,8 @@ class Preprocess:
 		match = contraction.group(0)
 		# first char from matching contrcation (D for Doesn't)
 		first_char = match[0]
-		if contraction_mapping.get(match):
-			expanded_contraction = contraction_mapping.get(match)
-		else:
-			expanded_contraction = contraction_mapping.get(match.lower())
+		expanded_contraction = contraction_mapping.get(
+		    match) or contraction_mapping.get(match.lower())
 		expanded_contraction = first_char+expanded_contraction[1:]
 
 		return expanded_contraction
@@ -211,28 +200,27 @@ class Preprocess:
 		Ouput :- String
 		"""
 		emoji_pattern = re.compile("["
-	                               u"\U0001F600-\U0001F64F"  # emoticons
-	                               u"\U0001F300-\U0001F5FF"  # symbols & pictographs
-	                               u"\U0001F680-\U0001F6FF"  # transport & map symbols
-	                               u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
-	                               u"\U00002500-\U00002BEF"  # chinese char
-	                               u"\U00002702-\U000027B0"
-	                               u"\U00002702-\U000027B0"
-	                               u"\U000024C2-\U0001F251"
-	                               u"\U0001f926-\U0001f937"
-	                               u"\U00010000-\U0010ffff"
-	                               u"\u2640-\u2642"
-	                               u"\u2600-\u2B55"
-	                               u"\u200d"
-	                               u"\u23cf"
-	                               u"\u23e9"
-	                               u"\u231a"
-	                               u"\ufe0f"  # dingbats
-	                               u"\u3030"
-	                               "]+", flags=re.UNICODE)
+		u"\U0001F600-\U0001F64F"  # emoticons
+		u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+		u"\U0001F680-\U0001F6FF"  # transport & map symbols
+		u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+		u"\U00002500-\U00002BEF"  # chinese char
+		u"\U00002702-\U000027B0"
+		u"\U00002702-\U000027B0"
+		u"\U000024C2-\U0001F251"
+		u"\U0001f926-\U0001f937"
+		u"\U00010000-\U0010ffff"
+		u"\u2640-\u2642"
+		u"\u2600-\u2B55"
+		u"\u200d"
+		u"\u23cf"
+		u"\u23e9"
+		u"\u231a"
+		u"\ufe0f"  # dingbats
+		u"\u3030"
+		"]+", flags=re.UNICODE)
 
-		without_emoji = emoji_pattern.sub(r'',text)
-		return without_emoji
+		return emoji_pattern.sub(r'',text)
 
 	def remove_emoticons(self, text):
 		"""
@@ -240,10 +228,9 @@ class Preprocess:
 		Input :- string
 		Output :- string
 		"""
-		emoticon_pattern = re.compile(u'(' + u'|'.join(k for k in EMOTICONS) + u')')
+		emoticon_pattern = re.compile(u'(' + u'|'.join(EMOTICONS) + u')')
 
-		without_emoticons = emoticon_pattern.sub(r'',text)
-		return without_emoticons
+		return emoticon_pattern.sub(r'',text)
 
 	def emoji_words(self, text):
 		"""
@@ -252,7 +239,7 @@ class Preprocess:
 		Output :- String
 		"""
 		for emot in UNICODE_EMO:
-			emoji_pattern = r'('+emot+')'
+			emoji_pattern = f'({emot})'
 			# replace 
 			emoji_words = UNICODE_EMO[emot]
 			replace_text = emoji_words.replace(",","")
@@ -269,7 +256,7 @@ class Preprocess:
 		Output :- String
 		"""
 		for emot in EMOTICONS:
-			emoticon_pattern = r'('+emot+')'
+			emoticon_pattern = f'({emot})'
 			# replace 
 			emoticon_words = EMOTICONS[emot]
 			replace_text = emoticon_words.replace(",","")
@@ -293,17 +280,10 @@ class Preprocess:
 		Input :- String
 		Output :- String 
 		"""
-		text_without_sw = []
 		# tokenization
 		text_tokens = word_tokenize(text)
-		for word in text_tokens:
-			# checking word is stopword or not
-			if word not in all_stopwords:
-				text_without_sw.append(word)
-
-		# joining all tokens afetr removing stopwords
-		without_sw = ' '.join(text_without_sw)
-		return without_sw
+		text_without_sw = [word for word in text_tokens if word not in all_stopwords]
+		return ' '.join(text_without_sw)
 
 	def freq_words(self, text):
 		"""
@@ -316,11 +296,7 @@ class Preprocess:
 		for word in tokens:
 			counter[word]= +1
 
-		FrequentWords = []
-		# take top 10 frequent words
-		for (word, word_count) in counter.most_common(10):
-			FrequentWords.append(word)
-
+		FrequentWords = [word for (word, word_count) in counter.most_common(10)]
 		return set(FrequentWords)
 
 	def remove_fw(self, text, FrequentWords):
@@ -333,10 +309,7 @@ class Preprocess:
 
 		for index in range(len(text)):
 			tokens = word_tokenize(text[index])
-			without_fw = []
-			for word in tokens:
-				if word not in FrequentWords:
-					without_fw.append(word)
+			without_fw = [word for word in tokens if word not in FrequentWords]
 			without_fw = ' '.join(without_fw)
 			text[index] = without_fw
 		return text
@@ -352,13 +325,12 @@ class Preprocess:
 		for word in tokens:
 			counter[word]= +1
 
-		RareWords = []
 		number_rare_words = 10
 		# take top 10 frequent words
 		frequentWords = counter.most_common()
-		for (word, word_count) in frequentWords[:-number_rare_words:-1]:
-			RareWords.append(word)
-
+		RareWords = [
+		    word for (word, word_count) in frequentWords[:-number_rare_words:-1]
+		]
 		return set(RareWords)
 
 	def remove_rw(self,text, RareWords):
@@ -371,11 +343,7 @@ class Preprocess:
 		# RareWords = self.rare_words(text)
 		for index in range(len(text)):
 			tokens = word_tokenize(text[index])
-			without_rw = []
-			for word in tokens:
-				if word not in RareWords:
-					without_rw.append(word)
-
+			without_rw = [word for word in tokens if word not in RareWords]
 			without_rw = ' '.join(without_rw)
 			text[index] = without_rw
 
@@ -388,8 +356,7 @@ class Preprocess:
 		Output:- string
 		"""
 		single_char_pattern = r'\s+[a-zA-Z]\s+'
-		without_sc = re.sub(pattern=single_char_pattern, repl=" ", string=text)
-		return without_sc
+		return re.sub(pattern=single_char_pattern, repl=" ", string=text)
 
 	def remove_extra_spaces(self,text):
 		"""
@@ -398,8 +365,7 @@ class Preprocess:
 		Output :- String
 		"""
 		space_pattern = r'\s+'
-		without_space = re.sub(pattern=space_pattern, repl=" ", string=text)
-		return without_space
+		return re.sub(pattern=space_pattern, repl=" ", string=text)
 
 	def remove_null_sent(self, text):
 		"""
@@ -407,11 +373,7 @@ class Preprocess:
 		Input :- list of string
 		Output :- list of string
 		"""
-		sent_list = []
-		for sent in text:
-			if len(sent)>2:
-				sent_list.append(sent.strip())
-		return sent_list
+		return [sent.strip() for sent in text if len(sent)>2]
 
 	# # Print iterations progress
 	# def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
@@ -436,9 +398,9 @@ class Preprocess:
 	#         print()
 
 	def preprocessing(self, data, techniques):
-		self.data = data 
+		self.data = data
 		self.techniques = techniques
-		
+
 		"""
 		lcc = lower case convertion
 		rht = Removing HTML tags
@@ -489,16 +451,13 @@ class Preprocess:
 		# Initial call to print 0% progress
 		# printProgressBar(0, l, prefix = 'Progress:', suffix = 'Complete', length = total_iterations)
 		bar = Bar('Technique Processing', max=len(techniques))
-		i=1
-		for method in techniques:
+		for i, method in enumerate(techniques, start=1):
 			print(f"method *************:- {method}")
-			bar_1 = Bar(str(i)+" "+'text Processing', max=len(data))
-			if method == 'rfw' or method == 'rrw':
+			bar_1 = Bar(f'{str(i)} text Processing', max=len(data))
+			if method in ['rfw', 'rrw']:
 				print(f"method *************:- {method}")
-				if method == 'rfw':
-					list_words = self.freq_words(' '.join(data))
-				else:
-					list_words = self.rare_words(' '.join(data))
+				list_words = (self.freq_words(' '.join(data))
+				              if method == 'rfw' else self.rare_words(' '.join(data)))
 				data = techniques_dict[method](data, list_words)
 				bar_1.next()
 			else:
@@ -509,10 +468,9 @@ class Preprocess:
 					# Update Progress Bar
 					# printProgressBar(i + 1, l, prefix = 'Progress:', suffix = 'Complete', length = total_iterations)
 				bar_1.finish()
-			i +=1
 			bar.next()
 		bar.finish()
 
 		data = self.remove_null_sent(data)
-		
+
 		return data
