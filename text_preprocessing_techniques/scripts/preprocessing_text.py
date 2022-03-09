@@ -40,12 +40,12 @@ techniques = ["rfw","rrw","rsc", "res"]
 	rsc = Removing Single characters
 	res = Removing Extra Spaces
 """
-print(f"******** Before preprocessing technique ******* ")
+print("******** Before preprocessing technique ******* ")
 for sent in sentences[:5]:
 	print(sent)
 preprocessing = Preprocess()
 
 preprocessed_text = preprocessing.preprocessing(sentences, techniques)
-print(f"******** After preprocessing ****************")
+print("******** After preprocessing ****************")
 for sent in preprocessed_text[:5]:
 	print(sent)

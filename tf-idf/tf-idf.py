@@ -32,8 +32,8 @@ class TfIdf:
             self.merge_corpus_document(corpus_filename)
 
         if stopword_filename:
-          stopword_file = codecs.open(stopword_filename, "r", encoding='utf-8')
-          self.stopwords = set([line.strip() for line in stopword_file])
+            stopword_file = codecs.open(stopword_filename, "r", encoding='utf-8')
+            self.stopwords = {line.strip() for line in stopword_file}
 
     def merge_corpus_document(self, corpus_filename):
         """
@@ -85,7 +85,7 @@ class TfIdf:
 
         output_file.write(str(self.num_docs) + "\n")
         for term, num_docs in self.term_num_docs.items():
-          output_file.write(term + ": " + str(num_docs) + "\n")
+            output_file.write(f'{term}: {str(num_docs)}' + "\n")
 
         sorted_terms = sorted(self.term_num_docs.items(), key=itemgetter(1),
                               reverse=True)
@@ -107,8 +107,8 @@ class TfIdf:
         if term in self.stopwords:
           return 0
 
-        if not term in self.term_num_docs:
-          return self.idf_default
+        if term not in self.term_num_docs:
+            return self.idf_default
 
         return math.log(float(1 + self.get_num_docs()) /
           (1 + self.term_num_docs[term]))
@@ -148,9 +148,7 @@ with open('tfidf_testcorpus.txt', 'r') as ff:
     corp = ff.read()
     print(corp)
     corp_split = corp.split(':')
-    for i in range(len(corp_split)-1):
-        vocab.append(corp_split[i].split('\n')[1])
-
+    vocab.extend(corp_split[i].split('\n')[1] for i in range(len(corp_split)-1))
 print('\n**Stopwords**')
 with open('tfidf_teststopwords.txt', 'r') as ff:
     print(ff.read())

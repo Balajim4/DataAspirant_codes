@@ -8,6 +8,7 @@ Date: 2020-08-09
 """
 
 
+
 #importing necessary libraries
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -37,12 +38,17 @@ df['label']=df.replace({'ham':0,'spam':1}) #you can also use other techniques
 
 ps = PorterStemmer()
 corpus = []
-for i in range(0, len(df)):
+for i in range(len(df)):
     review = re.sub('[^a-zA-Z]', ' ', df['text'][i]) #removing useless symbols except alphabets
     review = review.lower() #lowering the text
     review = review.split() #splitting the text
 
-    review = [ps.stem(word) for word in review if not word in stopwords.words('english')]
+    review = [
+        ps.stem(word)
+        for word in review
+        if word not in stopwords.words('english')
+    ]
+
     review = ' '.join(review)
     corpus.append(review)
 

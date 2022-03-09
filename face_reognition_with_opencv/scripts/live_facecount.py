@@ -59,8 +59,16 @@ def gender_facecounter(image,m,f,size=0.5):
     cv2.rectangle(image,(0,0),(300,30),(255,255,255),-1)
     cv2.putText(image," females = {},males = {} ".format(f,m),(0,15),
     cv2.FONT_HERSHEY_TRIPLEX,0.6,(255, 101, 125),1)
-    cv2.putText(image," faces detected = " + str(len(faces)),(10,30),
-    cv2.FONT_HERSHEY_TRIPLEX,0.5,(0,0,0),1)
+    cv2.putText(
+        image,
+        f" faces detected = {len(faces)}",
+        (10, 30),
+        cv2.FONT_HERSHEY_TRIPLEX,
+        0.5,
+        (0, 0, 0),
+        1,
+    )
+
 
     return image
 
@@ -68,10 +76,10 @@ def gender_facecounter(image,m,f,size=0.5):
 
 source = cv2.VideoCapture(0)
 
+x=0
+y=0
 while True:
     ret, frame = source.read()
-    x=0
-    y=0
     cv2.imshow("Live Facecount",gender_facecounter(frame,x,y))
     if cv2.waitKey(1) == 13: #13 is the Enter Key
         break

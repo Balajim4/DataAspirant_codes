@@ -28,8 +28,7 @@ def read_data(path):
     :param path:
     :return:
     """
-    data = pd.read_csv(path)
-    return data
+    return pd.read_csv(path)
 
 
 def get_headers(dataset):

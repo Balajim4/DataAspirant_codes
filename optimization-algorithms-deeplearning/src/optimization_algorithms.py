@@ -29,7 +29,7 @@ def momentum(model, X_train, y_train, minibatch_size):
 
     minibatches = get_minibatch(X_train, y_train, minibatch_size)
 
-    for iter in range(1, n_iter + 1):
+    for _ in range(1, n_iter + 1):
         idx = np.random.randint(0, len(minibatches))
         X_mini, y_mini = minibatches[idx]
 
@@ -48,7 +48,7 @@ def nesterov(model, X_train, y_train, minibatch_size):
 
     minibatches = get_minibatch(X_train, y_train, minibatch_size)
 
-    for iter in range(1, n_iter + 1):
+    for _ in range(1, n_iter + 1):
         idx = np.random.randint(0, len(minibatches))
         X_mini, y_mini = minibatches[idx]
 
@@ -67,7 +67,7 @@ def adagrad(model, X_train, y_train, minibatch_size):
 
     minibatches = get_minibatch(X_train, y_train, minibatch_size)
 
-    for iter in range(1, n_iter + 1):
+    for _ in range(1, n_iter + 1):
         idx = np.random.randint(0, len(minibatches))
         X_mini, y_mini = minibatches[idx]
 
@@ -86,7 +86,7 @@ def rmsprop(model, X_train, y_train, minibatch_size):
 
     minibatches = get_minibatch(X_train, y_train, minibatch_size)
 
-    for iter in range(1, n_iter + 1):
+    for _ in range(1, n_iter + 1):
         idx = np.random.randint(0, len(minibatches))
         X_mini, y_mini = minibatches[idx]
 

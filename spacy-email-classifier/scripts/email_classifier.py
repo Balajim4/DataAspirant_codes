@@ -29,7 +29,7 @@ def train_model(model, train_data, optimizer, batch_size, epochs=10):
     losses = {}
     random.seed(1)
 
-    for epoch in range(epochs):
+    for _ in range(epochs):
         random.shuffle(train_data)
 
         batches = minibatch(train_data, size=batch_size)
@@ -39,8 +39,6 @@ def train_model(model, train_data, optimizer, batch_size, epochs=10):
 
             # Update model with texts and labels
             model.update(texts, labels, sgd=optimizer, losses=losses)
-        # print("Loss: {}".format(losses['textcat']))
-
     return losses['textcat']
 
 def get_predictions(model, texts):
@@ -53,9 +51,7 @@ def get_predictions(model, texts):
 
     # From the scores, find the label with the highest score/probability
     predicted_labels = scores.argmax(axis=1)
-    predicted_class = [textcat.labels[label] for label in predicted_labels]
-
-    return predicted_class
+    return [textcat.labels[label] for label in predicted_labels]
 
 
 ######## Main method ########

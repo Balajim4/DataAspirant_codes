@@ -8,6 +8,7 @@ Date: 2020-10-22
 ===============================================
 """
 
+
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
 import cv2
@@ -63,8 +64,16 @@ for (x,y,w,h) in faces:
 cv2.rectangle(image,(0,0),(300,30),(255,255,255),-1)
 cv2.putText(image," females = {},males = {} ".format(females,males),(0,15),
 cv2.FONT_HERSHEY_TRIPLEX,0.6,(255, 101, 125),1)
-cv2.putText(image," faces detected = " + str(len(faces)),(10,30),
-cv2.FONT_HERSHEY_TRIPLEX,0.5,(0,0,0),1)
+cv2.putText(
+    image,
+    f" faces detected = {len(faces)}",
+    (10, 30),
+    cv2.FONT_HERSHEY_TRIPLEX,
+    0.5,
+    (0, 0, 0),
+    1,
+)
+
 
 
 cv2.imshow("Gender FaceCounter",image)

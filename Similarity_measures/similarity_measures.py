@@ -29,7 +29,7 @@ def cosine_similarity(x,y):
 
 def square_rooted(x):
 
-	return round(sqrt(sum([a*a for a in x])),3)
+	return round(sqrt(sum(a*a for a in x)), 3)
 
 
 def jaccard_similarity(x,y):

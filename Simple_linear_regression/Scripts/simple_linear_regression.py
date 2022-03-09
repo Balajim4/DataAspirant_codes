@@ -26,8 +26,7 @@ def cal_mean(readings):
     """
     readings_total = sum(readings)
     number_of_readings = len(readings)
-    mean = readings_total / float(number_of_readings)
-    return mean
+    return readings_total / float(number_of_readings)
 
 
 def cal_variance(readings):
@@ -102,8 +101,7 @@ def cal_rmse(actual_readings, predicted_readings):
     for i in xrange(0, total_readings):
         error = predicted_readings[i] - actual_readings[i]
         square_error_total += pow(error, 2)
-    rmse = square_error_total / float(total_readings)
-    return rmse
+    return square_error_total / float(total_readings)
 
 
 def simple_linear_regression(dataset):
